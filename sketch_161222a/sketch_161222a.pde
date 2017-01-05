@@ -22,10 +22,15 @@ float[] pr = new float[MAX_CUE]; //割合
 
 float w = 850;  //バーの横幅
 float h;
-float x;
+float x = 25;
 float y;
+float m;
 float all; //sumの合計
-float font = 0; 
+float font1 = 255;
+float font2 = 0;
+float font3 = 255;
+float value_y1 = 250; //タスク表示のY座標（左側）
+float value_y2 = 250; //タスク表示のY座標（右側）
  
 void setup() {
   size(850, 500);
@@ -69,19 +74,35 @@ void setup() {
       }
       System.out.println(all);
     for (int c = 1; c < pr.length; c ++) {  //value.lenghは配列の要素数を返す
-      float x = 25;
-      float y = 25;
-      float w = 0;
+      float y = 50;
       float h = 100;
       
-      pr[c] = sum[c+1] / all;
-      System.out.println(pr[c]);
-      w = pr[c] * 800;
-      fill(255, font + 15, 0);
-      rect(x + w, y, w, h);
-      System.out.println(w);
+      pr[c] = sum[c] / all;
+      //System.out.println(pr[c]);
+      m = pr[c] * 800;
+      System.out.println(m);
+      font1 = font1 - 15;
+      font2 = font2 + 15;
+      font3 = font3 - 15;
+      fill(font1, 255, font2);
+      if(c <= 6){
+        //fill(font1, 0, font2);
+        rect(50, value_y1, 10, 10);
+        text(s[c-1] , 130, value_y1 + 10);
+        value_y1 = value_y1 + 30;
+      }else{
+        //fill(font1, 255, font3);
+        rect(200, value_y2, 10, 10);
+        text(s[c-1], 280, value_y2 + 10);
+        value_y2 = value_y2 + 30;
+      }
+      rect(x, y, m, h);
+      x = x + m;
+      System.out.println(x);
     }
-    
+    float minitue = all / 60;
+    text(minitue, 825, 40);
+    System.out.println(minitue);
     print("\n");
     
   print(datalines.length + "行のデータでした");
