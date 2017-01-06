@@ -29,14 +29,15 @@ float all; //sumの合計
 float font1 = 255;
 float font2 = 0;
 float font3 = 255;
-float value_y1 = 250; //タスク表示のY座標（左側）
-float value_y2 = 250; //タスク表示のY座標（右側）
+float value_y1 = 450; //タスク表示のY座標（左側）
+float value_y2 = 450; //タスク表示のY座標（右側）
+float value_y3 = 450;
  
 void setup() {
-  size(850, 500);
+  size(1000, 600);
   background(255);
   myFont = createFont("MS-Gothic", 12);    //フォント作成
-  textFont(myFont, 12);  //テキストのサイズを設定
+  textFont(myFont, 16);  //テキストのサイズを設定
   textAlign(CENTER);
   
   //barW = width / float(value.length);  //バーの横幅を決定
@@ -74,8 +75,8 @@ void setup() {
       }
       System.out.println(all);
     for (int c = 1; c < pr.length; c ++) {  //value.lenghは配列の要素数を返す
-      float y = 50;
-      float h = 100;
+      float y = 380;
+      float h = 50;
       
       pr[c] = sum[c] / all;
       //System.out.println(pr[c]);
@@ -85,25 +86,30 @@ void setup() {
       font2 = font2 + 15;
       font3 = font3 - 15;
       fill(font1, 200, font2);
-      if(c <= 6){
+      if(c <= 4){
         //fill(font1, 0, font2);
         rect(50, value_y1, 10, 10);
         text(s[c-1] , 130, value_y1 + 10);
         value_y1 = value_y1 + 30;
-      }else{
+      }else if(c <= 8){
         //fill(font1, 255, font3);
         rect(200, value_y2, 10, 10);
         text(s[c-1], 280, value_y2 + 10);
         value_y2 = value_y2 + 30;
+      }else{
+        rect(350, value_y3, 10, 10);
+        text(s[c-1], 430, value_y3 + 10);
+        value_y3 = value_y3 + 30;
       }
       rect(x, y, m, h);
       x = x + m;
       System.out.println(x);
     }
     float minitue = all / 60;
+    int time = int(minitue);
     fill(0, 0, 0);
-    text(0, 25, 40);
-    text(minitue, 825, 40);
+    text(0, 25, 370);
+    text(time +"       (分)" , 855, 370);
     System.out.println(minitue);
     print("\n");
     
