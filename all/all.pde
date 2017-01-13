@@ -1,15 +1,68 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.lang.Object;
+import java.util.Calendar;
+import java.util.List;
+import java.io.*;
+import com.mongodb.*;
+import com.mongodb.annotations.*;
+import com.mongodb.assertions.*;
+import com.mongodb.async.*;
+import com.mongodb.binding.*;
+import com.mongodb.bulk.*;
+import com.mongodb.client.*;
+import com.mongodb.client.gridfs.*;
+import com.mongodb.client.gridfs.codecs.*;
+import com.mongodb.client.gridfs.model.*;
+import com.mongodb.client.model.*;
+import com.mongodb.client.model.geojson.*;
+import com.mongodb.client.model.geojson.codecs.*;
+import com.mongodb.client.result.*;
+import com.mongodb.connection.*;
+import com.mongodb.connection.netty.*;
+import com.mongodb.diagnostics.logging.*;
+import com.mongodb.event.*;
+import com.mongodb.gridfs.*;
+import com.mongodb.internal.*;
+import com.mongodb.internal.async.*;
+import com.mongodb.internal.authentication.*;
+import com.mongodb.internal.connection.*;
+import com.mongodb.internal.management.jmx.*;
+import com.mongodb.internal.thread.*;
+import com.mongodb.internal.validator.*;
+import com.mongodb.management.*;
+import com.mongodb.operation.*;
+import com.mongodb.selector.*;
+import com.mongodb.util.*;
+import org.bson.*;
+import org.bson.assertions.*;
+import org.bson.codecs.*;
+import org.bson.codecs.configuration.*;
+import org.bson.conversions.*;
+import org.bson.diagnostics.*;
+import org.bson.io.*;
+import org.bson.json.*;
+import org.bson.types.*;
+import org.bson.util.*;
+
+import java.util.*;
+
 // カンマ区切りテキストファイルの読み込み
 // 最大行列数定義
 int MAX_LINE = 1024;
 int MAX_CUE = 12;
 
-
 // 行データ格納文字列
 String[] datalines;
+List<String> todaylines = new ArrayList<String>();
+
+SimpleDateFormat sdf1 = new SimpleDateFormat("\"yyyy年MM月dd日HH時mm分\"");
 
 // データ配列（※0行0列からスタート）
 int[][] data = new int[MAX_LINE][MAX_CUE];
-//String[][] data1 = new String[MAX_LINE][0];
+String[][] data1 = new String[MAX_LINE][0];
 
 int[] sum = new int[MAX_CUE];
 
@@ -44,9 +97,30 @@ void setup() {
   
   //barW = width / float(value.length);  //バーの横幅を決定
   // ファイル読み込み
-  datalines = loadStrings("C:\\Users\\pattsuan\\Desktop\\taskpit-logs\\kawazeo\\TaskHistories_Time.csv");
+  datalines = kawazoeLoadStrings("C:\\Users\\pattsuan\\Desktop\\taskpit-logs\\kawazeo\\TaskHistories_Time.csv");
   //datalines.replaceAll(",","");
+  
   // ファイルが開けた場合
+  Calendar cal = Calendar.getInstance(); //現在時刻のCalendar
+  cal.set(Calendar.HOUR_OF_DAY, 0);
+  cal.set(Calendar.MINUTE, 0);
+  cal.set(Calendar.SECOND, 0); //時間を全部0にする
+  Date now = cal.getTime(); //dateに変換
+  for(int k = 0; k < datalines.length; k++){
+    String line = datalines[k];
+    Date formatDate = null;
+    try{
+      formatDate = sdf1.parse(line.split(",")[0]);
+    }catch(ParseException e0){
+      System.err.println(e0.getMessage());
+    }
+    
+    if( formatDate != null && now.compareTo(formatDate) <= 0){
+      todaylines.add(datalines[k]);
+    }
+  }
+  
+  datalines = todaylines.toArray(new String[todaylines.size()]);
   if(datalines != null) {
   for(int i = 1; i < datalines.length; i ++) {
     // 空白行でないかを確認
@@ -120,5 +194,6 @@ void setup() {
     print("\n");
     
   print(datalines.length + "行のデータでした");
+  System.out.println(now);
 }
 }

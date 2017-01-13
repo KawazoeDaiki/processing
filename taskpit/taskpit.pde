@@ -1,15 +1,25 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.lang.Object;
+import java.util.Calendar;
+import java.util.List;
+import java.io.*;
 // カンマ区切りテキストファイルの読み込み
 // 最大行列数定義
 int MAX_LINE = 1024;
 int MAX_CUE = 12;
 
-
 // 行データ格納文字列
 String[] datalines;
+List<String> todaylines = new ArrayList<String>();
+
+SimpleDateFormat sdf1 = new SimpleDateFormat("\"yyyy年MM月dd日HH時mm分\"");
 
 // データ配列（※0行0列からスタート）
 int[][] data = new int[MAX_LINE][MAX_CUE];
-//String[][] data1 = new String[MAX_LINE][0];
+String[][] data1 = new String[MAX_LINE][0];
 
 int[] sum = new int[MAX_CUE];
 
@@ -19,6 +29,8 @@ String[] s = {"taskpit", "ブラウザ", "メール", "プログラミング", "
               "プレゼン編集","データ分析","デスクトップ","ファイル操作","登録外"};
 
 float[] pr = new float[MAX_CUE]; //割合
+float[] min = new float[MAX_CUE]; //分
+float[] sec = new float[MAX_CUE]; //秒
 
 float w = 850;  //バーの横幅
 float h;
@@ -42,9 +54,30 @@ void setup() {
   
   //barW = width / float(value.length);  //バーの横幅を決定
   // ファイル読み込み
-  datalines = loadStrings("Book2.csv");
+  datalines = kawazoeLoadStrings("C:\\Users\\pattsuan\\Desktop\\taskpit-logs\\kawazeo\\TaskHistories_Time.csv");
   //datalines.replaceAll(",","");
+  
   // ファイルが開けた場合
+  Calendar cal = Calendar.getInstance(); //現在時刻のCalendar
+  cal.set(Calendar.HOUR_OF_DAY, 0);
+  cal.set(Calendar.MINUTE, 0);
+  cal.set(Calendar.SECOND, 0); //時間を全部0にする
+  Date now = cal.getTime(); //dateに変換
+  for(int k = 0; k < datalines.length; k++){
+    String line = datalines[k];
+    Date formatDate = null;
+    try{
+      formatDate = sdf1.parse(line.split(",")[0]);
+    }catch(ParseException e0){
+      System.err.println(e0.getMessage());
+    }
+    
+    if( formatDate != null && now.compareTo(formatDate) <= 0){
+      todaylines.add(datalines[k]);
+    }
+  }
+  
+  datalines = todaylines.toArray(new String[todaylines.size()]);
   if(datalines != null) {
   for(int i = 1; i < datalines.length; i ++) {
     // 空白行でないかを確認
@@ -80,6 +113,10 @@ void setup() {
       
       pr[c] = sum[c] / all;
       //System.out.println(pr[c]);
+      min[c] = sum[c] / 60;
+      int mi = int(min[c]);
+      sec[c] = sum[c] % 60;
+      int se = int(sec[c]);
       m = pr[c] * 800;
       System.out.println(m);
       font1 = font1 - 15;
@@ -89,16 +126,16 @@ void setup() {
       if(c <= 4){
         //fill(font1, 0, font2);
         rect(50, value_y1, 10, 10);
-        text(s[c-1] , 130, value_y1 + 10);
+        text(s[c-1] + "=" + mi + "分" + se + "秒", 180, value_y1 + 10);
         value_y1 = value_y1 + 30;
       }else if(c <= 8){
         //fill(font1, 255, font3);
-        rect(200, value_y2, 10, 10);
-        text(s[c-1], 280, value_y2 + 10);
+        rect(300, value_y2, 10, 10);
+        text(s[c-1] + "=" + mi + "分" + se + "秒", 430, value_y2 + 10);
         value_y2 = value_y2 + 30;
       }else{
-        rect(350, value_y3, 10, 10);
-        text(s[c-1], 430, value_y3 + 10);
+        rect(550, value_y3, 10, 10);
+        text(s[c-1] + "=" + mi + "分" + se + "秒", 680, value_y3 + 10);
         value_y3 = value_y3 + 30;
       }
       rect(x, y, m, h);
@@ -114,5 +151,6 @@ void setup() {
     print("\n");
     
   print(datalines.length + "行のデータでした");
+  System.out.println(now);
 }
 }
