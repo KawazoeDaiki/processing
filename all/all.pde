@@ -48,12 +48,14 @@ import org.bson.types.*;
 import org.bson.util.*;
 
 import java.util.*;
-
 // カンマ区切りテキストファイルの読み込み
 // 最大行列数定義
 int MAX_LINE = 1024;
 int MAX_CUE = 12;
 
+Tem tem;
+Co2 co2;
+Sound sound;
 // 行データ格納文字列
 String[] datalines;
 List<String> todaylines = new ArrayList<String>();
@@ -67,8 +69,9 @@ String[][] data1 = new String[MAX_LINE][0];
 int[] sum = new int[MAX_CUE];
 
 PFont myFont;    //フォント用変数
-int[] value = new int[11];
-String[] s = {"taskpit", "ブラウザ", "メール", "プログラミング", "デバッグ", "テキスト閲覧",
+PFont Font;
+int[] value1 = new int[11];
+String[] s1 = {"taskpit", "ブラウザ", "メール", "プログラミング", "デバッグ", "テキスト閲覧",
               "プレゼン編集","データ分析","デスクトップ","ファイル操作","登録外"};
 
 float[] pr = new float[MAX_CUE]; //割合
@@ -88,12 +91,31 @@ float value_y1 = 450; //タスク表示のY座標（左側）
 float value_y2 = 450; //タスク表示のY座標（右側）
 float value_y3 = 450;
  
+int hot = 0;
+int cold = 0;
+int good = 0;
+
+int[] value = new int[3];
+String[] s = {"good","bad","null"};
+
+float barW = 30;  //バーの横幅
+float barH;
+float resize = 10.0; 
+float space = 10.0;
+
+MongoClient mongo = new MongoClient("150.89.234.253", 27018);
+MongoDatabase database = mongo.getDatabase("test") ;
+ 
 void setup() {
   size(1000, 600);
   background(255);
   myFont = createFont("MS-Gothic", 12);    //フォント作成
   textFont(myFont, 16);  //テキストのサイズを設定
   textAlign(CENTER);
+ 
+  tem = new Tem();
+  co2 = new Co2();
+  sound = new Sound();
   
   //barW = width / float(value.length);  //バーの横幅を決定
   // ファイル読み込み
@@ -169,16 +191,16 @@ void setup() {
       if(c <= 4){
         //fill(font1, 0, font2);
         rect(50, value_y1, 10, 10);
-        text(s[c-1] + "=" + mi + "分" + se + "秒", 180, value_y1 + 10);
+        text(s1[c-1] + "=" + mi + "分" + se + "秒", 180, value_y1 + 10);
         value_y1 = value_y1 + 30;
       }else if(c <= 8){
         //fill(font1, 255, font3);
         rect(300, value_y2, 10, 10);
-        text(s[c-1] + "=" + mi + "分" + se + "秒", 430, value_y2 + 10);
+        text(s1[c-1] + "=" + mi + "分" + se + "秒", 430, value_y2 + 10);
         value_y2 = value_y2 + 30;
       }else{
         rect(550, value_y3, 10, 10);
-        text(s[c-1] + "=" + mi + "分" + se + "秒", 680, value_y3 + 10);
+        text(s1[c-1] + "=" + mi + "分" + se + "秒", 680, value_y3 + 10);
         value_y3 = value_y3 + 30;
       }
       rect(x, y, m, h);
@@ -196,4 +218,7 @@ void setup() {
   print(datalines.length + "行のデータでした");
   System.out.println(now);
 }
+tem.temData();
+co2.co2Data();
+sound.soundData();
 }

@@ -6,11 +6,11 @@ class Co2 {
   MongoCollection<Document> collection = database.getCollection("feeling-co2");
   
   Calendar cal = Calendar.getInstance();
-  cal.add(Calendar.DATE, -2);
+  cal.add(Calendar.DATE, -4);
   Date now = cal.getTime();
   
   FindIterable<Document> result = collection.find();
-  for(Document doc : result){
+ /* for(Document doc : result){
     Date time = doc.getDate("date");
     String userlist = doc.getString("user");
     String feeling = doc.getString("feeling");
@@ -25,7 +25,23 @@ class Co2 {
     }
     //System.out.println(doc.toJson());
   }
-  }
+  }*/
+  
+  System.out.println("最新情報co2");
+  AggregateIterable<Document> lst = db.getUserLatestFeeling(collection, now);
+  for(Document doc : lst){
+    String user = doc.getString("_id");
+    String feeling = doc.getString("last_feeling");
+    
+    if( feeling != null ){
+      if( feeling.equals("good") == true ){
+        good++;
+      }else if( feeling.equals("bad") == true ){
+        bad++;
+      }
+    }
+    System.out.println(user + "くん: " + feeling);
+  }  
   
   value[0] = good;
   value[1] = bad;
@@ -38,15 +54,19 @@ class Co2 {
     barH = value[c] * resize; 
       
     noStroke();
-    fill(127);    //グレーで描画  
-      if(value[c] >= 6){
-        fill(255,0,0);
-        rect(x + 200, y, barW, barH);
-        text(value[c], x + 215, y - 10);
-      }else{
-        rect(x + 200, y, barW, barH);
-        text(value[c], x + 215, y - 10);
-      }
+    fill(127);    //グレーで描画 
+    if(value[c] == 0){
+      stroke(127);
+      line(x + 200, y, x + 230, y);
+    }
+    if(value[c] >= 2){
+      fill(255,0,0);
+      rect(x + 200, y, barW, barH);
+      text(value[c], x + 215, y - 10);
+    }else{
+      rect(x + 200, y, barW, barH);
+      text(value[c], x + 215, y - 10);
+    }
   }
   fill(127);
   textFont(myFont, 16);
@@ -55,8 +75,8 @@ class Co2 {
   textFont(Font, 14);
   text("good", 215, 270);
   text("bad", 255, 270);
-  System.out.println(good);
-  System.out.println(bad);
+  //System.out.println(good);
+  //System.out.println(bad);
   //Document latest = collection.find(Filters.eq("user", "英知")).sort(Sorts.descending("date")).first();
   //println(latest);
   //println(db.getUserList(collection));

@@ -77,7 +77,7 @@ void setup(){
   //db = new db();
   
   Calendar cal = Calendar.getInstance();
-  cal.add(Calendar.DATE, -2);
+  cal.add(Calendar.DATE, -4);
   Date now = cal.getTime();
   
   FindIterable<Document> result = collection.find();
@@ -101,7 +101,7 @@ void setup(){
   }
   }*/
   
-  System.out.println("最新情報");
+  System.out.println("最新情報temperature");
   AggregateIterable<Document> lst = db.getUserLatestFeeling(collection, now);
   for(Document doc : lst){
     String user = doc.getString("_id");
@@ -131,15 +131,19 @@ void setup(){
     barH = value[c] * resize; 
       
     noStroke();
-    fill(127);    //グレーで描画  
-      if(value[c] >= 6){
-        fill(255,0,0);
-        rect(x + 50, y, barW, barH);
-        text(value[c], x + 50, y);
-      }else{
-    rect(x + 50, y, barW, barH);
-    text(value[c], x + 65, y - 10);
-      }
+    fill(127);    //グレーで描画 
+    if(value[c] == 0){
+      stroke(127);
+      line(x + 50, y, x + 80, y);
+    }
+    if(value[c] >= 3){
+      fill(255,0,0);
+      rect(x + 50, y, barW, barH);
+      text(value[c], x + 65, y - 10);
+    }else{
+      rect(x + 50, y, barW, barH);
+      text(value[c], x + 65, y - 10);
+    }
   }
   fill(127);
   text("temperature", 105, 290);
@@ -150,12 +154,12 @@ void setup(){
   text("cold", 104, 270);
   text("good", 145, 270);
   
-  co2.co2Data();
-  sound.soundData();
-  
     System.out.println("HOT : " + hot);
     System.out.println("COLD: " + cold);
     System.out.println("GOOD: " + good);  
+    
+    co2.co2Data();
+    sound.soundData();
     
     System.out.println(now);
 }
