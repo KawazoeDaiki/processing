@@ -56,6 +56,7 @@ int MAX_CUE = 12;
 Tem tem;
 Co2 co2;
 Sound sound;
+
 // 行データ格納文字列
 String[] datalines;
 List<String> todaylines = new ArrayList<String>();
@@ -116,6 +117,7 @@ void setup() {
   tem = new Tem();
   co2 = new Co2();
   sound = new Sound();
+
   
   //barW = width / float(value.length);  //バーの横幅を決定
   // ファイル読み込み
@@ -221,4 +223,5 @@ void setup() {
 tem.temData();
 co2.co2Data();
 sound.soundData();
+
 }
