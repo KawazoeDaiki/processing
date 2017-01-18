@@ -1,3 +1,10 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
 import com.mongodb.*;
 import com.mongodb.annotations.*;
 import com.mongodb.assertions.*;
@@ -38,6 +45,16 @@ import org.bson.io.*;
 import org.bson.json.*;
 import org.bson.types.*;
 import org.bson.util.*;
+
+import java.util.*;
+import java.text.*;
+import java.io.*;
+
+int[] value = new int[3];
+float barW = 30;  //バーの横幅
+float barH;
+float resize = 10.0; 
+float space = 10.0;
 
 zoe_main zm = new zoe_main();
 uchi_main um = new uchi_main();
