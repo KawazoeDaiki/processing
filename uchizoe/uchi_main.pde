@@ -98,6 +98,7 @@ class uchi_main {
       rect(450, 50, 200, 30);
 
       fill(0);
+      textAlign(CENTER);
       text("time :"+t, 550, 75);
 
       //ボタンの位置//
