@@ -7,7 +7,7 @@ class Tem {
     MongoCollection<Document> collection = database.getCollection("feeling-temperature");
     
   Calendar cal = Calendar.getInstance();
-  cal.add(Calendar.DATE, -4);
+  cal.add(Calendar.DATE, -7);
   Date now = cal.getTime();
   
   FindIterable<Document> result = collection.find();
@@ -46,9 +46,9 @@ class Tem {
     System.out.println(user + "くん: " + feeling);
   }  
   
-  value[0] = hot;
-  value[1] = cold;
-  value[2] = good;
+  value[0] = good;
+  value[1] = hot;
+  value[2] = cold;
   
   for (int c = 0; c < 3; c ++) {  //value.lenghは配列の要素数を返す 
     //バーのx座標, y座標を計算
@@ -63,23 +63,39 @@ class Tem {
       stroke(127);
       line(x + 50, y, x + 80, y);
     }
-    if(value[c] >= 2){
-      fill(255,0,0);
-      rect(x + 50, y, barW, barH);
-      text(value[c], x + 65, y - 10);
-    }else{
+
+    if( c == 0 && value[0] >= 0){
       rect(x + 50, y, barW, barH);
       text(value[c], x + 65, y - 10);
     }
+    if( c == 1 && value[1] >= 3 ){
+      fill(255,0,0);
+      rect(x + 50, y, barW, barH);
+      text(value[c], x + 65, y - 10);
+      alert();
+    }else if( c == 1 ){
+      rect(x + 50, y, barW, barH);
+      text(value[c], x + 65, y - 10);
+    }
+    if( c == 2 && value[2] >= 3 ){
+      fill(255,0,0);
+      rect(x + 50, y, barW, barH);
+      text(value[c], x + 65, y - 10);
+      alert();
+    }else if( c == 2 ){
+      rect(x + 50, y, barW, barH);
+      text(value[c], x + 65, y - 10);
+    }
+
   }
   fill(127);
   text("temperature", 105, 290);
   Font = createFont("MS-Gothic", 12);
   textFont(Font, 14);
 
-  text("hot", 64, 270);
-  text("cold", 104, 270);
-  text("good", 145, 270);
+  text("good", 64, 270);
+  text("hot", 104, 270);
+  text("cold", 145, 270);
   //System.out.println(good);
   //System.out.println(bad);
   //Document latest = collection.find(Filters.eq("user", "英知")).sort(Sorts.descending("date")).first();

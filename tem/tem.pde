@@ -1,3 +1,10 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
 import com.mongodb.*;
 import com.mongodb.annotations.*;
 import com.mongodb.assertions.*;
@@ -41,6 +48,10 @@ import org.bson.util.*;
 
 import java.util.*;
 
+/*音*/
+Minim minim;
+AudioSample alert;
+
 Co2 co2;
 Sound sound;
 //db db;
@@ -64,10 +75,11 @@ MongoClient mongo = new MongoClient("150.89.234.253", 27018);
 MongoDatabase database = mongo.getDatabase("test") ;
 MongoCollection<Document> collection = database.getCollection("feeling-temperature");
 
-
 void setup(){
   size(1000, 600);
   background(255);
+  minim = new Minim( this );
+  alert = minim.loadSample("18am02.wav");
   myFont = createFont("MS-Gothic", 12);    //フォント作成
   textFont(myFont, 16);  //テキストのサイズを設定
   textAlign(CENTER);
@@ -77,7 +89,7 @@ void setup(){
   //db = new db();
   
   Calendar cal = Calendar.getInstance();
-  cal.add(Calendar.DATE, -4);
+  cal.add(Calendar.DATE, -7);
   Date now = cal.getTime();
   
   FindIterable<Document> result = collection.find();
@@ -119,9 +131,9 @@ void setup(){
     System.out.println(user + "くん: " + feeling);
   }
   
-  value[0] = hot;
-  value[1] = cold;
-  value[2] = good;
+  value[0] = good;
+  value[1] = hot;
+  value[2] = cold;
   line(0,300,1000,300);
   for (int c = 0; c < value.length; c ++) {  //value.lenghは配列の要素数を返す 
     //バーのx座標, y座標を計算
@@ -136,23 +148,39 @@ void setup(){
       stroke(127);
       line(x + 50, y, x + 80, y);
     }
-    if(value[c] >= 3){
-      fill(255,0,0);
-      rect(x + 50, y, barW, barH);
-      text(value[c], x + 65, y - 10);
-    }else{
+    
+    if( c == 0 && value[0] >= 0){
       rect(x + 50, y, barW, barH);
       text(value[c], x + 65, y - 10);
     }
+    if( c == 1 && value[1] >= 2 ){
+      fill(255,0,0);
+      rect(x + 50, y, barW, barH);
+      text(value[c], x + 65, y - 10);
+      alert();
+    }else if( c == 1 ){
+      rect(x + 50, y, barW, barH);
+      text(value[c], x + 65, y - 10);
+    }
+    if( c == 2 && value[2] >= 2 ){
+      fill(255,0,0);
+      rect(x + 50, y, barW, barH);
+      text(value[c], x + 65, y - 10);
+      alert();
+    }else if( c == 2 ){
+      rect(x + 50, y, barW, barH);
+      text(value[c], x + 65, y - 10);
+    }
+    
   }
   fill(127);
   text("temperature", 105, 290);
   Font = createFont("MS-Gothic", 12);
   textFont(Font, 14);
 
-  text("hot", 64, 270);
-  text("cold", 104, 270);
-  text("good", 145, 270);
+  text("good", 64, 270);
+  text("hot", 104, 270);
+  text("cold", 145, 270);
   
     System.out.println("HOT : " + hot);
     System.out.println("COLD: " + cold);
@@ -162,9 +190,20 @@ void setup(){
     sound.soundData();
     
     System.out.println(now);
+}  
+
+void draw(){
 }
 
-  
+void alert(){
+  alert.trigger();
+}
+
+void stop(){
+  alert.close();
+  minim.stop();
+  super.stop();
+}
   
   
   

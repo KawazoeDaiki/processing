@@ -1,3 +1,10 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -57,6 +64,10 @@ Tem tem;
 Co2 co2;
 Sound sound;
 
+/*音*/
+Minim minim;
+AudioSample alert;
+
 // 行データ格納文字列
 String[] datalines;
 List<String> todaylines = new ArrayList<String>();
@@ -110,6 +121,8 @@ MongoDatabase database = mongo.getDatabase("test") ;
 void setup() {
   size(1000, 600);
   background(255);
+  minim = new Minim( this );
+  alert = minim.loadSample("18am02.wav");
   myFont = createFont("MS-Gothic", 12);    //フォント作成
   textFont(myFont, 16);  //テキストのサイズを設定
   textAlign(CENTER);
@@ -224,4 +237,17 @@ tem.temData();
 co2.co2Data();
 sound.soundData();
 
+}
+
+void draw(){
+}
+
+void alert(){
+  alert.trigger();
+}
+
+void stop(){
+  alert.close();
+  minim.stop();
+  super.stop();
 }

@@ -6,7 +6,7 @@ class Co2 {
   MongoCollection<Document> collection = database.getCollection("feeling-co2");
   
   Calendar cal = Calendar.getInstance();
-  cal.add(Calendar.DATE, -4);
+  cal.add(Calendar.DATE, -7);
   Date now = cal.getTime();
   
   FindIterable<Document> result = collection.find();
@@ -59,11 +59,16 @@ class Co2 {
       stroke(127);
       line(x + 200, y, x + 230, y);
     }
-    if(value[c] >= 2){
+    if( c == 0 && value[0] >= 0){
+      rect(x + 200, y, barW, barH);
+      text(value[c], x + 215, y - 10);
+    }
+    if( c == 1 && value[1] >= 2 ){
       fill(255,0,0);
       rect(x + 200, y, barW, barH);
       text(value[c], x + 215, y - 10);
-    }else{
+      alert();
+    }else if( c == 1 ){
       rect(x + 200, y, barW, barH);
       text(value[c], x + 215, y - 10);
     }
