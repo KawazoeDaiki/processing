@@ -8,9 +8,7 @@ class zoe_main{
   Co2 co2;
   Sound sound;
   
-  /*音*/
-  Minim minim;
-  AudioSample alert;
+
   
   // 行データ格納文字列
   String[] datalines;
@@ -24,8 +22,6 @@ class zoe_main{
   
   int[] sum = new int[MAX_CUE];
   
-  PFont myFont;    //フォント用変数
-  PFont Font;
   int[] value1 = new int[11];
   String[] s1 = {"taskpit", "ブラウザ", "メール", "プログラミング", "デバッグ", "テキスト閲覧",
                 "プレゼン編集","データ分析","デスクトップ","ファイル操作","登録外"};
@@ -56,13 +52,13 @@ class zoe_main{
   
   
   MongoClient mongo = new MongoClient("150.89.234.253", 27018);
-  MongoDatabase database = mongo.getDatabase("test") ;
    
   void setup() {
-    size(1000, 600);
+    
+    database = mongo.getDatabase("test");
+    //size(1000, 600);
     background(255);
-    minim = new Minim( this );
-    alert = minim.loadSample("18am02.wav");
+
     myFont = createFont("MS-Gothic", 12);    //フォント作成
     textFont(myFont, 16);  //テキストのサイズを設定
     textAlign(CENTER);

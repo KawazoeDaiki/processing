@@ -56,14 +56,42 @@ float barH;
 float resize = 10.0; 
 float space = 10.0;
 
+PFont myFont;    //フォント用変数
+PFont Font;
+
+  /*音*/
+Minim minim;
+AudioSample alert;
+
+MongoDatabase database;
+
 zoe_main zm = new zoe_main();
 uchi_main um = new uchi_main();
 
 void setup(){
+  size(1000, 600);
+  minim = new Minim( this );
+  alert = minim.loadSample("18am02.wav");
   zm.setup();
   um.setup();
 }
 
 void draw(){ 
   um.draw();
+}
+
+void alert(){
+  alert.trigger();
+}
+
+void mouseReleased(){
+  um.mouseReleased();
+}
+
+void dispose(){
+  um.dispose();
+}
+
+void stop(){
+  zm.stop();
 }

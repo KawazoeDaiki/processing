@@ -28,3 +28,4 @@ class Vote {
    // text(result2, 225, 260);
     textAlign(LEFT);
   }
+}
