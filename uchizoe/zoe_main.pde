@@ -70,7 +70,7 @@ class zoe_main{
     
     //barW = width / float(value.length);  //バーの横幅を決定
     // ファイル読み込み
-    datalines = kawazoeLoadStrings("C:\\Users\\pattsuan\\Desktop\\taskpit-logs\\kawazeo\\TaskHistories_Time.csv");
+    datalines = kawazoeLoadStrings("C:\\logs\\TestUserA\\TaskHistories_Time.csv");
     //datalines.replaceAll(",","");
     
     // ファイルが開けた場合

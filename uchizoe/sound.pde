@@ -6,7 +6,7 @@ class Sound {
   MongoCollection<Document> collection = database.getCollection("feeling-sound");
   
   Calendar cal = Calendar.getInstance();
-  cal.add(Calendar.DATE, -7);
+  cal.add(Calendar.MINUTE, -60);
   Date now = cal.getTime();
   
   FindIterable<Document> result = collection.find();
@@ -63,7 +63,7 @@ class Sound {
       rect(x + 310, y, barW, barH);
       text(value[c], x + 325, y - 10);
     }
-    if( c == 1 && value[1] >= 3 ){
+    if( c == 1 && value[1] >= 5 ){
       fill(255,0,0);
       rect(x + 310, y, barW, barH);
       text(value[c], x + 325, y - 10);

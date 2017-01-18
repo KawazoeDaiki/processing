@@ -6,7 +6,7 @@ class Co2 {
   MongoCollection<Document> collection = database.getCollection("feeling-co2");
   
   Calendar cal = Calendar.getInstance();
-  cal.add(Calendar.DATE, -7);
+  cal.add(Calendar.MINUTE, -60);
   Date now = cal.getTime();
   
  /* for(Document doc : result){
@@ -62,7 +62,7 @@ class Co2 {
       rect(x + 200, y, barW, barH);
       text(value[c], x + 215, y - 10);
     }
-    if( c == 1 && value[1] >= 3 ){
+    if( c == 1 && value[1] >= 5 ){
       fill(255,0,0);
       rect(x + 200, y, barW, barH);
       text(value[c], x + 215, y - 10);
