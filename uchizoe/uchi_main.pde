@@ -95,7 +95,7 @@ class uchi_main {
     if (cnt <= 1) {
       fill(256, 256, 256);
       noStroke();
-      rect(540, 50, 200, 30);
+      rect(450, 50, 200, 30);
 
       fill(0);
       text("time :"+t, 550, 75);
