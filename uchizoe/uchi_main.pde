@@ -34,7 +34,7 @@ class uchi_main {
     }
 
     //size(1000, 600);
-    background(256, 256, 256);
+    //background(256, 256, 256);
     fill(0);
     line(0, 300, 1000, 300);
     result = collection.find().sort(Sorts.descending("date"));
@@ -207,7 +207,7 @@ class uchi_main {
     fnct++;
     if (fnct >= 18000) {
       size(1000, 600);
-      background(255, 255, 255);
+      //background(255, 255, 255);
       fill(0);
       line(0, 300, 1000, 300);
       result = collection.find().sort(Sorts.descending("date"));
