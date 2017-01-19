@@ -230,10 +230,10 @@ class uchi_main {
       }
       textSize(20);
       text("time :", 550, 75);
-      text("temperature : "+tem + "℃", 550, 100);
+      //text("temperature : "+tem + "℃", 550, 100);
       //text("Humidity : " + Humidity + "%", 550,125);
       text("CO2 : " + CO2 + "ppm", 550, 150);     
-      text("Noise : " + Noise + "dB", 550, 250);     
+      //text("Noise : " + Noise + "dB", 550, 250);     
       // text("Pressure : " +Pressure + "mb", 550,200);
 
       fnct = 0;
