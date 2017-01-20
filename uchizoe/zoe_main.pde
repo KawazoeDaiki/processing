@@ -23,8 +23,8 @@ class zoe_main {
   int[] sum = new int[MAX_CUE];
 
   int[] value1 = new int[11];
-  String[] s1 = {"taskpit", "ブラウザ", "メール", "プログラミング", "デバッグ", "テキスト閲覧", 
-    "プレゼン編集", "データ分析", "デスクトップ", "ファイル操作", "登録外"};
+  String[] s1 = {"YouTube", "ブラウザ", "メール", "プログラミング", "論文編集", "テキスト閲覧", 
+    "プレゼン編集", "うちぞえプログラム", "デスクトップ", "ファイル操作", "登録外"};
 
   float[] pr = new float[MAX_CUE]; //割合
   float[] min = new float[MAX_CUE]; //分
