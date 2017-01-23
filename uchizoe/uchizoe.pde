@@ -72,6 +72,7 @@ void setup(){
   size(1000, 600);
   minim = new Minim( this );
   alert = minim.loadSample("18am02.wav");
+  background(255);
   zm.setup();
   um.setup();
 }

@@ -18,7 +18,6 @@ class uchi_main {
   String tmpSound = "none";
 
   void setup() {
-
     //MongoDBサーバーに接続
     mongo = new MongoClient("150.89.234.253", 27018);
     //利用するデータベースを取得
@@ -76,6 +75,8 @@ class uchi_main {
     fnct = 0;
     userName = System.getProperty("user.name");
   }
+
+  
 
   void draw() {
 

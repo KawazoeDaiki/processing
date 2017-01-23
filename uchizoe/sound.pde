@@ -54,7 +54,9 @@ class Sound {
     barH = value[c] * resize; 
       
     noStroke();
+    strokeWeight(1);
     fill(127);    //グレーで描画  
+    textSize(16);
     if(value[c] == 0){
       stroke(127);
       line(x + 310, y, x + 340, y);

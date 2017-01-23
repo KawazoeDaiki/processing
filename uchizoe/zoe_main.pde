@@ -32,7 +32,7 @@ class zoe_main {
 
   float w = 850;  //バーの横幅
   float h;
-  float x = 25;
+  float graph_x = 25;
   float y;
   float m;
   float all; //sumの合計
@@ -46,28 +46,50 @@ class zoe_main {
   int hot = 0;
   int cold = 0;
   int good = 0;
-<<<<<<< HEAD
+
   
   int fnct;
-  int cnt;
-  
-  String[] s = {"good","bad","null"};
-  
-  
-  
-=======
+  int cnt;  
+
 
   String[] s = {"good", "bad", "null"};
 
-  int cnt = 0;
 
->>>>>>> origin/master
   MongoClient mongo = new MongoClient("150.89.234.253", 27018);
 
   void drawFeelingGraph() {
+      String[] datalines;
+  List<String> todaylines = new ArrayList<String>();
+
+  SimpleDateFormat sdf1 = new SimpleDateFormat("\"yyyy年MM月dd日HH時mm分\"");
+
+  // データ配列（※0行0列からスタート）
+  int[][] data = new int[MAX_LINE][MAX_CUE];
+  String[][] data1 = new String[MAX_LINE][0];
+
+  int[] sum = new int[MAX_CUE];
+
+  int[] value1 = new int[11];
+  String[] s1 = {"YouTube", "ブラウザ", "メール", "プログラミング", "論文編集", "テキスト閲覧", 
+    "プレゼン編集", "うちぞえプログラム", "デスクトップ", "ファイル操作", "登録外"};
+
+  float[] pr = new float[MAX_CUE]; //割合
+  float[] min = new float[MAX_CUE]; //分
+  float[] sec = new float[MAX_CUE]; //秒
+
+  float w = 850;  //バーの横幅
+  float x = graph_x;
+  float m;
+  float all = 0; //sumの合計
+  float font1 = 255;
+  float font2 = 0;
+  float font3 = 255;
+  float value_y1 = 450; //タスク表示のY座標（左側）
+  float value_y2 = 450; //タスク表示のY座標（右側）
+  float value_y3 = 450;
     database = mongo.getDatabase("test");
     //size(1000, 600);
-    background(255);
+    //background(255);
 
     myFont = createFont("MS-Gothic", 12);    //フォント作成
     textFont(myFont, 16);  //テキストのサイズを設定
@@ -103,6 +125,7 @@ class zoe_main {
       }
       
     } 
+
     datalines = todaylines.toArray(new String[todaylines.size()]);
     if (datalines != null) {
       for (int i = 1; i < datalines.length; i ++) {
@@ -167,6 +190,7 @@ class zoe_main {
           text(s1[c-1] + "=" + mi + "分" + se + "秒", 680, value_y3 + 10);
           value_y3 = value_y3 + 30;
         }
+        stroke(0);
         rect(x, y, m, h);
         x = x + m;
         System.out.println(x);
@@ -192,31 +216,41 @@ class zoe_main {
   void setup() {
     
     drawFeelingGraph(); 
-    //fcnt++;
+    cnt = 0;
+    fcnt = 0;
   }
-<<<<<<< HEAD
+
   
   void draw(){
-    cnt = 0;
-    if(cnt <= 1){
+    /*fill(255);
+    textSize(12);
+    rect(0, 0, 100, 100);
+    fill(0);
+    text(String.format("cnt:%d\nfcnt%d", cnt, fcnt), 0, 0, 100, 100);*/
+    
+    if(cnt >= 60 ){
       fill(256,256,256);
       rect(0,0,450,300);
       fill(0);
       tem.temData();
       co2.co2Data();
       sound.soundData();
-      cnt++;
+      cnt = 0;
     }
+    cnt++;
     
-=======
-
-  void draw() {
-    fcnt++;
-    if( fcnt >= 18000 ){
+    if( fcnt >= 2580){
+      //5分に1回やる処理
+      fill(256,256,256);
+      rect(0,300,1000,300);
+      fill(0);
       drawFeelingGraph();
+      fcnt = 0;
     }
->>>>>>> origin/master
-  }
+    fcnt++;
+  }  
+
+
 
   void alert() {
     alert.trigger();
