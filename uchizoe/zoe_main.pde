@@ -98,12 +98,11 @@ class zoe_main {
       catch(ParseException e0) {
         System.err.println(e0.getMessage());
       }
-
       if ( formatDate != null && now.compareTo(formatDate) <= 0) {
         todaylines.add(datalines[k]);
       }
-    }
-
+      
+    } 
     datalines = todaylines.toArray(new String[todaylines.size()]);
     if (datalines != null) {
       for (int i = 1; i < datalines.length; i ++) {
