@@ -78,6 +78,7 @@ void setup(){
 
 void draw(){ 
   um.draw();
+  zm.draw();
 }
 
 void alert(){

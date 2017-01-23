@@ -47,6 +47,9 @@ class zoe_main{
   int cold = 0;
   int good = 0;
   
+  int fnct;
+  int cnt;
+  
   String[] s = {"good","bad","null"};
   
   
@@ -176,6 +179,17 @@ class zoe_main{
   }
   
   void draw(){
+    cnt = 0;
+    if(cnt <= 1){
+      fill(256,256,256);
+      rect(0,0,450,300);
+      fill(0);
+      tem.temData();
+      co2.co2Data();
+      sound.soundData();
+      cnt++;
+    }
+    
   }
   
   void alert(){

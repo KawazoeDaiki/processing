@@ -89,6 +89,7 @@ class Tem {
 
   }
   fill(127);
+  textFont(myFont, 16);
   text("temperature", 105, 290);
   Font = createFont("MS-Gothic", 12);
   textFont(Font, 14);
